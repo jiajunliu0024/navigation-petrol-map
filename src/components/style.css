@@ -1,0 +1,18 @@
+.App {
+    height: 100vh;
+    width: 100vw;
+}
+
+.map-container {
+    height:100%;
+    width:100%;
+}
+
+.locate-button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;  /*Makes the button circular */ 
+    background-color: gray;
+    border: none;     /*Removes default button border */ 
+    outline: none;      /*Removes outline on focus */ 
+}

@@ -1,0 +1,21 @@
+.autocomplete-input {
+    width: 500px; /* Default width */
+  }
+  
+  @media (min-width: 600px) {
+    .autocomplete-input {
+      width: 300px; /* Width for screens larger than 600px */
+    }
+  }
+  
+  @media (min-width: 960px) {
+    .autocomplete-input {
+      width: 400px; /* Width for screens larger than 960px */
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .autocomplete-input {
+      width: 500px; /* Width for screens larger than 1280px */
+    }
+  }

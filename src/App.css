@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+/* Container div height and width must be specified to run Maps Correctly */
+.App {
+  height: 100vh;
+  width: 100vw;
+}
+.Map {
+  height: 80vh;
+  width: 100vw;
+}
+/* map container height and width to be provided to GoogleMaps Component */
+.map_container {
+  height: 100%;
+  width: 100%;
+}
