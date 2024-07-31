@@ -86,7 +86,7 @@ const Map = ({ src, des, cur }) => {
     try {
       const location = await geocodeAddress(
         address,
-        "AIzaSyA6d7pIq9TszfM0M6pIosMT1flSKr5o8oM"
+        process.env.GOOGLE_MAPS_API_KEY
       );
       return location;
     } catch (error) {
