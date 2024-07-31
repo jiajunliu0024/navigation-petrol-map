@@ -1,7 +1,7 @@
 import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
 import { getServoByBoundingBox } from "../api/servo";
-
+import { compareLat, compareLng } from "../utils/servoArea";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 
@@ -9,13 +9,15 @@ const Map = ({ src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
-  const [pathStatus, setPathStatus] = useState(null);
 
   const [map, setMap] = useState(null);
 
   const [servo, setServo] = useState(null);
 
+  const [mapFlag, setMapFlag] = useState(null);
+
   const directionsService = new window.google.maps.DirectionsService();
+  // const DirectionsRenderer = new window.google.maps.DirectionsRednerer();
 
   useEffect(() => {
     handleGeocode(src).then((location) => setSrcLocation(location));
@@ -36,7 +38,6 @@ const Map = ({ src, des, cur }) => {
       if (desLocation) bounds.extend(desLocation);
       map.fitBounds(bounds);
       map.setZoom(15);
-      // console.log(srcLocation, desLocation);
     }
   }, [srcLocation, desLocation]);
 
@@ -50,25 +51,36 @@ const Map = ({ src, des, cur }) => {
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           setDirections(result);
+          setMapFlag(true);
         } else {
+          setMapFlag(false);
           console.error(`error fetching directions`);
         }
       }
     );
   };
 
+  /*
+    listen the src or des location to update the direction 
+  */
   useEffect(() => {
     if (srcLocation && desLocation) {
       calculateRoute(srcLocation, desLocation);
-      setPathStatus(1);
       fetchServo();
     } else {
-      setPathStatus(null);
       setDirections(null);
       console.log("check the directions: ", directions);
       setServo([]);
     }
   }, [srcLocation, desLocation]);
+
+  useEffect(() => {
+    if (mapFlag) {
+      map.DirectionsRenderer = null;
+      console.log(map);
+      setMap(map);
+    }
+  }, [mapFlag]);
 
   const handleGeocode = async (address) => {
     try {
@@ -82,36 +94,10 @@ const Map = ({ src, des, cur }) => {
     }
   };
 
-  const compareLat = () => {
-    if (srcLocation.lat > desLocation.lat) {
-      return {
-        minLat: desLocation.lat,
-        maxLat: srcLocation.lat,
-      };
-    }
-    return {
-      minLat: srcLocation.lat,
-      maxLat: desLocation.lat,
-    };
-  };
-
-  const compareLng = () => {
-    if (srcLocation.lng > desLocation.lng) {
-      return {
-        minLng: desLocation.lng,
-        maxLng: srcLocation.lng,
-      };
-    }
-    return {
-      minLng: srcLocation.lng,
-      maxLng: desLocation.lng,
-    };
-  };
-
   const fetchServo = async () => {
     try {
-      const lat_set = compareLat();
-      const lng_set = compareLng();
+      const lat_set = compareLat(srcLocation, desLocation);
+      const lng_set = compareLng(srcLocation, desLocation);
 
       const params = {
         sw_lat: lat_set.minLat,
@@ -127,7 +113,6 @@ const Map = ({ src, des, cur }) => {
       const servoList = await getServoByBoundingBox(config);
       if (servoList.size !== 0) {
         setServo(servoList.body);
-        // console.log(servoList.body);
       } else {
         setServo(null);
       }
@@ -168,10 +153,4 @@ const Map = ({ src, des, cur }) => {
   );
 };
 
-
-function Directions(){
-  
-
-
-}
 export default Map;

@@ -1,6 +1,7 @@
 import "./App.css";
 import Home from "./page";
 import { LoadScript } from "@react-google-maps/api";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 function App() {
   const libraries = ["places"];
