@@ -4,7 +4,7 @@ import { getServoByRoute } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 
-const Map = ({ srcFlag, desFlag, src, des, cur }) => {
+const Map = ({ src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
@@ -17,11 +17,11 @@ const Map = ({ srcFlag, desFlag, src, des, cur }) => {
 
   useEffect(() => {
     handleGeocode(src).then((location) => setSrcLocation(location));
-  }, [srcFlag]);
+  }, [src]);
 
   useEffect(() => {
     handleGeocode(des).then((location) => setDesLocation(location));
-  }, [desFlag]);
+  }, [des]);
 
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);

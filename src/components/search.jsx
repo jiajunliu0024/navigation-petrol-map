@@ -4,9 +4,6 @@ import "../GooglePlacesAutocomplete.css";
 
 const GooglePlacesAutocomplete = ({
   setInputValue,
-  inputValue,
-  inputFlag,
-  setInputFlag,
   label,
   Icon,
 }) => {

@@ -11,10 +11,6 @@ import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 const Header = ({
   petrol,
   setPetrol,
-  srcFlag,
-  setSrcFlag,
-  desFlag,
-  setDesFlag,
   src,
   des,
   setSrc,
@@ -48,8 +44,6 @@ const Header = ({
     >
       <GooglePlacesAutocomplete
         Icon={PanoramaFishEyeIcon}
-        inputFlag={srcFlag}
-        setInputFlag={setSrcFlag}
         inputValue={src}
         setInputValue={setSrc}
         className="relative rounded-lg h-8 w-full md:w-auto"
@@ -57,8 +51,6 @@ const Header = ({
       ></GooglePlacesAutocomplete>
       <GooglePlacesAutocomplete
         Icon={RoomIcon}
-        inputFlag={desFlag}
-        setInputFlag={setDesFlag}
         inputValue={des}
         setInputValue={setDes}
         label={"Choose destination"}
