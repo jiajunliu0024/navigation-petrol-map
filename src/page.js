@@ -9,7 +9,8 @@ function Home() {
 
   const [src, setSrc] = useState("");
   const [des, setDes] = useState("");
-
+  const [srcFlag, setSrcFlag] = useState(false);
+  const [desFlag, setDesFlag] = useState(false);
   const handleCurrentPositionUpdate = (position) => {
     setCur(position);
     console.log(position, 123131);
@@ -26,10 +27,20 @@ function Home() {
           src={src}
           setDes={setDes}
           setSrc={setSrc}
+          srcFlag={srcFlag}
+          setSrcFlag={setSrcFlag}
+          desFlag={desFlag}
+          setDesFlag={setDesFlag}
           des={des}
           updatePosition={handleCurrentPositionUpdate}
         ></Header>
-        <Map src={src} des={des} cur={cur}></Map>
+        <Map
+          srcFlag={srcFlag}
+          desFlag={desFlag}
+          src={src}
+          des={des}
+          cur={cur}
+        ></Map>
       </div>
     </div>
   );
