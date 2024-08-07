@@ -8,11 +8,8 @@ const Map = ({ src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
-
   const [map, setMap] = useState(null);
-
   const [servo, setServo] = useState([]);
-
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
@@ -46,7 +43,7 @@ const Map = ({ src, des, cur }) => {
       },
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
-          console.log(result);
+          // console.log(result);
           setDirections(result);
         } else {
           console.error(`error fetching directions`);
@@ -64,7 +61,6 @@ const Map = ({ src, des, cur }) => {
       fetchServo();
     } else {
       setDirections(null);
-      console.log("check the directions: ", directions);
       setServo([]);
     }
   }, [srcLocation, desLocation]);
@@ -83,7 +79,6 @@ const Map = ({ src, des, cur }) => {
 
   const fetchServo = async () => {
     try {
-      console.log(srcLocation);
       const params = {
         srcLat: srcLocation.lat,
         srcLng: srcLocation.lng,
@@ -93,48 +88,21 @@ const Map = ({ src, des, cur }) => {
       const config = {
         params: params,
       };
-      // const config = {
-      //   params: geopointBoundings,
-      // };
-
-      const servoList = getServoByRoute(config);
-      // if (geopointBoundings.size != 0) {
-      //   geopointBoundings.map((point) => {
-      //     const params = {
-      //       sw_lat: point.latMin,
-      //       ne_lat: point.latMax,
-      //       sw_long: point.lngMin,
-      //       ne_long: point.lngMax,
-      //     };
-
-      //     const config = {
-      //       params: params,
-      //     };
-
-      //     const servoList = getServoByBoundingBox(config);
-
-      //     const newSrevo = servoList.body;
-      //     console.log(servoList, 111);
-      //     setServo((servo) => [...servo, newSrevo]);
-      //   });
-      // }
-      console.log(servoList);
+      const result = await getServoByRoute(config);
+      setServo(result.body);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const PetorlMarker = () => {
-    if (servo && servo.size > 0) {
-      console.log(servo.size, servo);
-      return servo.map((station) => (
-        <MarkerF
-          clickable={true}
-          key={station.address}
-          position={{ lat: station.location_y, lng: station.location_x }}
-        />
-      ));
-    }
+  const PetorlMarker = ({ servo }) => {
+    return servo.map((station) => (
+      <MarkerF
+        clickable={true}
+        key={station.address}
+        position={{ lat: station.location_y, lng: station.location_x }}
+      />
+    ));
   };
 
   return (
@@ -146,7 +114,7 @@ const Map = ({ src, des, cur }) => {
         zoom={15}
       >
         <MarkerF position={cur} />
-        <PetorlMarker></PetorlMarker>
+        <PetorlMarker servo={servo} />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
         {directions && <DirectionsRenderer directions={directions} />}
