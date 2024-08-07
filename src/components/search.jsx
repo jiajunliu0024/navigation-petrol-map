@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import "../GooglePlacesAutocomplete.css";
 
-const GooglePlacesAutocomplete = ({
-  setInputValue,
-  label,
-  Icon,
-}) => {
+const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
   const [options, setOptions] = useState([]);
   const [autocompleteService, setAutocompleteService] = useState(null);
   const [searchValue, setSearchValue] = useState("");
@@ -46,10 +42,8 @@ const GooglePlacesAutocomplete = ({
           setSearchValue(newInputValue);
         }}
         onChange={(event, newValue) => {
-          if (newValue) {
-            setInputValue(newValue);
-            console.log("Updated the input value: ", newValue);
-          }
+          setInputValue(newValue);
+          console.log("Updated the input value: ", newValue);
         }}
         renderInput={(params) => (
           <TextField
