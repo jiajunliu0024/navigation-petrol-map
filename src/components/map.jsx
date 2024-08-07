@@ -1,32 +1,27 @@
 import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
-import { getServoByBoundingBox, getBoundingBoxByRange } from "../api/servo";
-import { compareLat, compareLng } from "../utils/servoArea";
+import { getServoByRoute } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 
-const Map = ({ src, des, cur }) => {
+const Map = ({ srcFlag, desFlag, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
 
   const [map, setMap] = useState(null);
 
-  const [geopointBoundings, setGeopointBoundings] = useState([]);
-
   const [servo, setServo] = useState([]);
-
-  const [overviewPath, setOverviewPath] = useState(null);
 
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
     handleGeocode(src).then((location) => setSrcLocation(location));
-  }, [src]);
+  }, [srcFlag]);
 
   useEffect(() => {
     handleGeocode(des).then((location) => setDesLocation(location));
-  }, [des]);
+  }, [desFlag]);
 
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);
@@ -53,10 +48,6 @@ const Map = ({ src, des, cur }) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           console.log(result);
           setDirections(result);
-          if (directions && directions.routes) {
-            setOverviewPath(directions.routes[0].overview_path);
-            console.log(overviewPath);
-          }
         } else {
           console.error(`error fetching directions`);
         }
@@ -72,6 +63,7 @@ const Map = ({ src, des, cur }) => {
       calculateRoute(srcLocation, desLocation);
       fetchServo();
     } else {
+      setDirections(null);
       console.log("check the directions: ", directions);
       setServo([]);
     }
@@ -91,43 +83,42 @@ const Map = ({ src, des, cur }) => {
 
   const fetchServo = async () => {
     try {
-      console.log(directionsService.route);
-      setGeopointBoundings([]);
-      // get the bounding box list for route location
-      if (overviewPath) {
-        overviewPath.map((location) => {
-          let boundingBox = getBoundingBoxByRange(
-            location.lat(),
-            location.lng(),
-            5000
-          );
-          console.log("box: ", boundingBox);
-          setGeopointBoundings((geopointBoundings) => [
-            ...geopointBoundings,
-            boundingBox,
-          ]);
-        });
-      }
-      console.log("result:", geopointBoundings);
-      if (geopointBoundings.size != 0) {
-        geopointBoundings.map((point) => {
-          const params = {
-            sw_lat: point.latMin,
-            ne_lat: point.latMax,
-            sw_long: point.lngMin,
-            ne_long: point.lngMax,
-          };
-          const config = {
-            params: params,
-          };
+      console.log(srcLocation);
+      const params = {
+        srcLat: srcLocation.lat,
+        srcLng: srcLocation.lng,
+        desLat: desLocation.lat,
+        desLng: desLocation.lng,
+      };
+      const config = {
+        params: params,
+      };
+      // const config = {
+      //   params: geopointBoundings,
+      // };
 
-          const servoList = getServoByBoundingBox(config);
+      const servoList = getServoByRoute(config);
+      // if (geopointBoundings.size != 0) {
+      //   geopointBoundings.map((point) => {
+      //     const params = {
+      //       sw_lat: point.latMin,
+      //       ne_lat: point.latMax,
+      //       sw_long: point.lngMin,
+      //       ne_long: point.lngMax,
+      //     };
 
-          const newSrevo = servoList.body;
-          console.log(newSrevo, 111);
-          setServo((servo) => [...servo, newSrevo]);
-        });
-      }
+      //     const config = {
+      //       params: params,
+      //     };
+
+      //     const servoList = getServoByBoundingBox(config);
+
+      //     const newSrevo = servoList.body;
+      //     console.log(servoList, 111);
+      //     setServo((servo) => [...servo, newSrevo]);
+      //   });
+      // }
+      console.log(servoList);
     } catch (error) {
       console.log(error.message);
     }

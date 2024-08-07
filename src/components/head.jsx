@@ -1,7 +1,5 @@
 // import { useState, useEffect, useRef, useMemo } from "react";
 import "./style.css";
-import Button from "@mui/material/Button";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Divider, IconButton } from "@mui/material";
 import PetrolSelect from "./petrol";
@@ -10,13 +8,13 @@ import LocationSearchingSharpIcon from "@mui/icons-material/LocationSearchingSha
 import RoomIcon from "@mui/icons-material/Room";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 
-import ServoSelect from "./servo";
-
 const Header = ({
   petrol,
   setPetrol,
-  servo,
-  setServo,
+  srcFlag,
+  setSrcFlag,
+  desFlag,
+  setDesFlag,
   src,
   des,
   setSrc,
@@ -50,6 +48,8 @@ const Header = ({
     >
       <GooglePlacesAutocomplete
         Icon={PanoramaFishEyeIcon}
+        inputFlag={srcFlag}
+        setInputFlag={setSrcFlag}
         inputValue={src}
         setInputValue={setSrc}
         className="relative rounded-lg h-8 w-full md:w-auto"
@@ -57,6 +57,8 @@ const Header = ({
       ></GooglePlacesAutocomplete>
       <GooglePlacesAutocomplete
         Icon={RoomIcon}
+        inputFlag={desFlag}
+        setInputFlag={setDesFlag}
         inputValue={des}
         setInputValue={setDes}
         label={"Choose destination"}

@@ -3,14 +3,16 @@ import { Autocomplete, TextField } from "@mui/material";
 import "../GooglePlacesAutocomplete.css";
 
 const GooglePlacesAutocomplete = ({
-  inputValue,
   setInputValue,
+  inputValue,
+  inputFlag,
+  setInputFlag,
   label,
   Icon,
 }) => {
   const [options, setOptions] = useState([]);
   const [autocompleteService, setAutocompleteService] = useState(null);
-
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     if (!autocompleteService && window.google) {
       setAutocompleteService(
@@ -20,9 +22,9 @@ const GooglePlacesAutocomplete = ({
   }, [autocompleteService]);
 
   useEffect(() => {
-    if (inputValue && autocompleteService) {
+    if (searchValue && autocompleteService) {
       autocompleteService.getPlacePredictions(
-        { input: inputValue },
+        { input: searchValue },
         (predictions, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setOptions(predictions.map((prediction) => prediction.description));
@@ -34,7 +36,7 @@ const GooglePlacesAutocomplete = ({
     } else {
       setOptions([]);
     }
-  }, [inputValue, autocompleteService]);
+  }, [searchValue, autocompleteService]);
 
   return (
     <div className="flex flex-row items-center justify-between">
@@ -42,9 +44,15 @@ const GooglePlacesAutocomplete = ({
       <Autocomplete
         size="small"
         options={options}
-        inputValue={inputValue}
+        inputValue={searchValue}
         onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
+          setSearchValue(newInputValue);
+        }}
+        onChange={(event, newValue) => {
+          if (newValue) {
+            setInputValue(newValue);
+            console.log("Updated the input value: ", newValue);
+          }
         }}
         renderInput={(params) => (
           <TextField
