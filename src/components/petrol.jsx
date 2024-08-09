@@ -5,7 +5,17 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function PetrolSelect({ petrol, setPetrol }) {
-  const petrolTypes = ["E10", "U91", "U95", "U98", "E85", "Diesel"];
+  const petrolTypes = [
+    "E10",
+    "U91",
+    "U95",
+    "U98",
+    "LPG",
+    "PremDSL",
+    "TruckDSL",
+    "AdBlue",
+    "DIESEL",
+  ];
 
   const handleChange = (event) => {
     setPetrol(event.target.value);
