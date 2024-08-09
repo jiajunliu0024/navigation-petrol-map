@@ -7,7 +7,7 @@ import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
 
 export default function ServoSelect({ servo, setServo }) {
-  const servoTypes = ["All", "Shell", "Carltex", "BP", "United", "7-11"];
+  const servoTypes = ["All", "Shell", "Caltex", "BP", "United", "7-11"];
 
   const handleChange = (event) => {
     const {

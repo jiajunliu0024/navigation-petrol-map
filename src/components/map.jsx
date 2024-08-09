@@ -8,6 +8,7 @@ import geocodeAddress from "../api/geocode";
 import { getServoByRoute } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
+import petrolImages from "../api/petrolImages";
 
 const Map = ({ petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
@@ -101,6 +102,18 @@ const Map = ({ petrolType, src, des, cur }) => {
   };
 
   const PetorlMarker = ({ servo }) => {
+    // TODO: change the icon shape liked marker 
+    const getIconImage = (station) => {
+      const imageSrc = petrolImages[station.brand] || petrolImages.default; // Fallback to a default image if brand not found
+      return {
+        url: imageSrc,
+        scaledSize: {
+          width: 20, // Width in pixels
+          height: 20, // Height in pixels
+        }, // Set the size here (width, height) in pixels
+      };
+    };
+
     const getStationTitle = (station) => {
       const petrol = station.petrol_list.find(
         (petrol) => petrol.type === petrolType
@@ -116,6 +129,7 @@ const Map = ({ petrolType, src, des, cur }) => {
         clickable={true}
         key={station.address}
         draggable={true}
+        icon={getIconImage(station)}
         label={getStationTitle(station)}
         position={{ lat: station.location_y, lng: station.location_x }}
       />
