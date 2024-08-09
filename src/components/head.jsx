@@ -21,7 +21,7 @@ const Header = ({
   // const [src, setSrc] = useState("");
   // const [des, setDes] = useState("");
   const getCurLocation = () => {
-    console.log(cur);
+    // console.log(cur);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
