@@ -28,7 +28,7 @@ function Home() {
           des={des}
           updatePosition={handleCurrentPositionUpdate}
         ></Header>
-        <Map src={src} des={des} cur={cur}></Map>
+        <Map petrolType={petrol} src={src} des={des} cur={cur}></Map>
       </div>
     </div>
   );

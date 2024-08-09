@@ -1,10 +1,15 @@
-import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  MarkerF,
+  DirectionsRenderer,
+  AdvancedMarkerElement,
+} from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
 import { getServoByRoute } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 
-const Map = ({ src, des, cur }) => {
+const Map = ({ petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
@@ -96,10 +101,22 @@ const Map = ({ src, des, cur }) => {
   };
 
   const PetorlMarker = ({ servo }) => {
+    const getStationTitle = (station) => {
+      const petrol = station.petrol_list.find(
+        (petrol) => petrol.type === petrolType
+      );
+      if (petrol) {
+        return `${petrol.amount}`;
+      }
+      return "No petrol info"; // Default title if no matching petrol type is found
+    };
+
     return servo.map((station) => (
       <MarkerF
         clickable={true}
         key={station.address}
+        draggable={true}
+        label={getStationTitle(station)}
         position={{ lat: station.location_y, lng: station.location_x }}
       />
     ));
