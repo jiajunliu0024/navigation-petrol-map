@@ -7,8 +7,11 @@ import GooglePlacesAutocomplete from "./search";
 import LocationSearchingSharpIcon from "@mui/icons-material/LocationSearchingSharp";
 import RoomIcon from "@mui/icons-material/Room";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
+import ServoBrandSelect from "./brand";
 
 const Header = ({
+  brand,
+  setBrand,
   petrol,
   setPetrol,
   src,
@@ -91,11 +94,12 @@ const Header = ({
             petrol={petrol}
             setPetrol={setPetrol}
           />
-          {/* <ServoSelect
+          
+          <ServoBrandSelect
             className="relative rounded-lg h-4 w-8 md:w-auto"
-            servo={servo}
-            setServo={setServo}
-          ></ServoSelect> */}
+            servoBrand={brand}
+            setServoBrand={setBrand}
+          ></ServoBrandSelect>
         </div>
       </div>
       {/* <Button

@@ -6,7 +6,7 @@ import Header from "./components/head";
 function Home() {
   const [petrol, setPetrol] = useState("U91");
   const [cur, setCur] = useState({ lat: -31.95224, lng: 115.8614 });
-
+  const [brand, setBrand] = useState(["SHELL", "BP"]);
   const [src, setSrc] = useState("");
   const [des, setDes] = useState("");
   const handleCurrentPositionUpdate = (position) => {
@@ -18,6 +18,8 @@ function Home() {
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-full h-full flex flex-col">
         <Header
+          brand={brand}
+          setBrand={setBrand}
           petrol={petrol}
           cur={cur}
           setCur={setCur}
@@ -28,7 +30,13 @@ function Home() {
           des={des}
           updatePosition={handleCurrentPositionUpdate}
         ></Header>
-        <Map petrolType={petrol} src={src} des={des} cur={cur}></Map>
+        <Map
+          brand={brand}
+          petrolType={petrol}
+          src={src}
+          des={des}
+          cur={cur}
+        ></Map>
       </div>
     </div>
   );
