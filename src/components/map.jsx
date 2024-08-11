@@ -10,7 +10,7 @@ import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 import petrolImages from "../api/petrolImages";
 
-const Map = ({ petrolType, src, des, cur }) => {
+const Map = ({ brand, petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
@@ -71,6 +71,12 @@ const Map = ({ petrolType, src, des, cur }) => {
     }
   }, [srcLocation, desLocation]);
 
+  useEffect(() => {
+    brand.map((name) => {
+      servo.filter((station) => station.brand !== name);
+    });
+  }, [brand]);
+
   const handleGeocode = async (address) => {
     try {
       const location = await geocodeAddress(
@@ -102,7 +108,7 @@ const Map = ({ petrolType, src, des, cur }) => {
   };
 
   const PetorlMarker = ({ servo }) => {
-    // TODO: change the icon shape liked marker 
+    // TODO: change the icon shape liked marker
     const getIconImage = (station) => {
       const imageSrc = petrolImages[station.brand] || petrolImages.default; // Fallback to a default image if brand not found
       return {
@@ -121,14 +127,12 @@ const Map = ({ petrolType, src, des, cur }) => {
       if (petrol) {
         return `${petrol.amount}`;
       }
-      return "No petrol info"; // Default title if no matching petrol type is found
     };
 
     return servo.map((station) => (
       <MarkerF
         clickable={true}
         key={station.address}
-        draggable={true}
         icon={getIconImage(station)}
         label={getStationTitle(station)}
         position={{ lat: station.location_y, lng: station.location_x }}
