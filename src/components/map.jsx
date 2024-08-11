@@ -16,6 +16,7 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   const [directions, setDirections] = useState({});
   const [map, setMap] = useState(null);
   const [servo, setServo] = useState([]);
+  const [filteredServo, setFilteredServo] = useState([]);
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
@@ -72,10 +73,8 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   }, [srcLocation, desLocation]);
 
   useEffect(() => {
-    brand.map((name) => {
-      servo.filter((station) => station.brand !== name);
-    });
-  }, [brand]);
+    setFilteredServo(servo.filter((station) => brand.includes(station.brand)));
+  }, [brand, servo]);
 
   const handleGeocode = async (address) => {
     try {
@@ -149,7 +148,7 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
         zoom={15}
       >
         <MarkerF position={cur} />
-        <PetorlMarker servo={servo} />
+        <PetorlMarker servo={filteredServo} />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
         {directions && <DirectionsRenderer directions={directions} />}

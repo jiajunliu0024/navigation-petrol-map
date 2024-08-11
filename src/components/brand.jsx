@@ -37,7 +37,6 @@ export default function ServoBrandSelect({ servoBrand, setServoBrand }) {
     "CALTEX",
     "SEVENELEVEN",
     "METRO",
-    "ALL",
   ];
 
   const handleChange = (event) => {
