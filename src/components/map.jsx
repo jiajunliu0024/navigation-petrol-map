@@ -17,6 +17,7 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   const [map, setMap] = useState(null);
   const [servo, setServo] = useState([]);
   const [filteredServo, setFilteredServo] = useState([]);
+  const [waypoints, setWayPoints] = useState([]);
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
@@ -41,13 +42,18 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
     }
   }, [srcLocation, desLocation]);
 
-  const calculateRoute = (srcLocation, desLocation) => {
+  const calculateRoute = (srcLocation, desLocation, waypoints) => {
     directionsService.route(
       {
         origin: srcLocation,
         destination: desLocation,
+        waypoints: waypoints.map((point) => ({
+          location: point,
+          stopover: true,
+        })),
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
+
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           // console.log(result);
@@ -64,13 +70,13 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   */
   useEffect(() => {
     if (srcLocation && desLocation) {
-      calculateRoute(srcLocation, desLocation);
+      calculateRoute(srcLocation, desLocation, waypoints);
       fetchServo();
     } else {
       setDirections(null);
       setServo([]);
     }
-  }, [srcLocation, desLocation]);
+  }, [srcLocation, desLocation, waypoints]);
 
   useEffect(() => {
     setFilteredServo(servo.filter((station) => brand.includes(station.brand)));
@@ -128,9 +134,18 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
       }
     };
 
+    const displayInfoWindow = (event) => {
+      // setWayPoints([])
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      setWayPoints([{ lat, lng }]);
+      console.log("click set the mid point");
+    };
+
     return servo.map((station) => (
       <MarkerF
         clickable={true}
+        onClick={displayInfoWindow}
         key={station.address}
         icon={getIconImage(station)}
         label={getStationTitle(station)}
