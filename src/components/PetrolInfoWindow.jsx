@@ -1,13 +1,26 @@
-const PetrolInfoWindow = ({ infoVisiable, infoStation, setInfoVisiable }) => {
+import { Button } from "@mui/material";
+const PetrolInfoWindow = ({
+  infoVisiable,
+  infoStation,
+  setInfoVisiable,
+  setWayPoints,
+}) => {
   console.log("visible:", infoVisiable);
-  return infoVisiable ? (
+
+  const cancelDetour = () => {
+    setInfoVisiable(false);
+    setWayPoints([]);
+  };
+
+  return (
     <div
+      hidden={infoVisiable ? null : "hidden"}
       id="info-panel"
       style={{
         position: "absolute",
-        bottom: "100px",
+        top: "60px",
         left: "50%",
-        width: "300px",
+        width: "200px",
         transform: "translateX(-50%)",
         background: "#fff",
         padding: "5px",
@@ -16,16 +29,13 @@ const PetrolInfoWindow = ({ infoVisiable, infoStation, setInfoVisiable }) => {
         zIndex: 1000,
       }}
     >
-      {/* <h4>Route Information</h4> */}
-      {/* <div>Address: {selectedInfoStation.address}</div>
-      <div>Brand Cost: {selectedInfoStation.brand}</div> */}
       <div>Distance: </div>
       <div>Estimated Cost: </div>
-      {/* <div>
+      <div>
+        <Button onClick={cancelDetour}>Cancel</Button>
         <Button>Navigate</Button>
-        <Button>Submmit Price</Button>
-      </div> */}
+      </div>
     </div>
-  ) : null;
+  );
 };
 export default PetrolInfoWindow;

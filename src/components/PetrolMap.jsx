@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 import PetorlMarker from "./PetrolMarker";
 import PetrolInfoWindow from "./PetrolInfoWindow";
 
-const Map = ({ brand, petrolType, src, des, cur }) => {
+const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
   const [desLocation, setDesLocation] = useState(null);
   const [directions, setDirections] = useState({});
@@ -110,26 +110,6 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
     }
   };
 
-  // const PetrolInfoWindow = () => {
-  //   return selectedInfoStation ? (
-  //     <InfoWindow
-  //       visiable={markerInfoVisiable}
-  //       onCloseClick={() => {
-  //         setMarkerInfoVisiable(false);
-  //       }}
-  //       position={{
-  //         lat: selectedInfoStation.location_y,
-  //         lng: selectedInfoStation.location_x,
-  //       }}
-  //     >
-  //       <div>
-  //         <h4>{selectedInfoStation.brand}</h4>
-  //         <h4>{selectedInfoStation.address}</h4>
-  //       </div>
-  //     </InfoWindow>
-  //   ) : null;
-  // };
-
   return (
     <div className="Map">
       <GoogleMap
@@ -148,6 +128,7 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
           setSelectedInfoStation={setSelectedInfoStation}
         />
         <PetrolInfoWindow
+          setWayPoints={setWayPoints}
           infoVisiable={markerInfoVisiable}
           setInfoVisiable={setMarkerInfoVisiable}
           infoStation={selectedInfoStation}
@@ -160,4 +141,4 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   );
 };
 
-export default Map;
+export default PetrolMap;
