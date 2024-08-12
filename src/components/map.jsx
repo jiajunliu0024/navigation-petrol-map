@@ -1,14 +1,10 @@
-import {
-  GoogleMap,
-  MarkerF,
-  DirectionsRenderer,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
 import { getServoByRoute } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 import PetorlMarker from "./PetrolMarker";
+import PetrolInfoWindow from "./PetrolInfoWindow";
 
 const Map = ({ brand, petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
@@ -20,7 +16,6 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   const [waypoints, setWayPoints] = useState([]);
   const [markerInfoVisiable, setMarkerInfoVisiable] = useState(false);
   const [selectedInfoStation, setSelectedInfoStation] = useState(null);
-
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
@@ -41,7 +36,7 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
       if (srcLocation) bounds.extend(srcLocation);
       if (desLocation) bounds.extend(desLocation);
       map.fitBounds(bounds);
-      map.setZoom(15);
+      map.setZoom(20);
     }
   }, [srcLocation, desLocation]);
 
@@ -115,25 +110,25 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
     }
   };
 
-  const PetrolInfoWindow = () => {
-    return selectedInfoStation ? (
-      <InfoWindow
-        visiable={markerInfoVisiable}
-        onCloseClick={() => {
-          setMarkerInfoVisiable(false);
-        }}
-        position={{
-          lat: selectedInfoStation.location_y,
-          lng: selectedInfoStation.location_x,
-        }}
-      >
-        <div>
-          <h4>{selectedInfoStation.brand}</h4>
-          <h4>{selectedInfoStation.address}</h4>
-        </div>
-      </InfoWindow>
-    ) : null;
-  };
+  // const PetrolInfoWindow = () => {
+  //   return selectedInfoStation ? (
+  //     <InfoWindow
+  //       visiable={markerInfoVisiable}
+  //       onCloseClick={() => {
+  //         setMarkerInfoVisiable(false);
+  //       }}
+  //       position={{
+  //         lat: selectedInfoStation.location_y,
+  //         lng: selectedInfoStation.location_x,
+  //       }}
+  //     >
+  //       <div>
+  //         <h4>{selectedInfoStation.brand}</h4>
+  //         <h4>{selectedInfoStation.address}</h4>
+  //       </div>
+  //     </InfoWindow>
+  //   ) : null;
+  // };
 
   return (
     <div className="Map">
@@ -152,7 +147,11 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
           setMarkerInfoVisiable={setMarkerInfoVisiable}
           setSelectedInfoStation={setSelectedInfoStation}
         />
-        <PetrolInfoWindow />
+        <PetrolInfoWindow
+          infoVisiable={markerInfoVisiable}
+          setInfoVisiable={setMarkerInfoVisiable}
+          infoStation={selectedInfoStation}
+        />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
         {directions && <DirectionsRenderer directions={directions} />}
