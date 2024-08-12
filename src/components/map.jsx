@@ -2,7 +2,7 @@ import {
   GoogleMap,
   MarkerF,
   DirectionsRenderer,
-  AdvancedMarkerElement,
+  InfoWindow,
 } from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
 import { getServoByRoute } from "../api/servo";
@@ -18,6 +18,9 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
   const [servo, setServo] = useState([]);
   const [filteredServo, setFilteredServo] = useState([]);
   const [waypoints, setWayPoints] = useState([]);
+  const [markerInfoVisiable, setMarkerInfoVisiable] = useState(false);
+  const [selectedInfoStation, setSelectedInfoStation] = useState(null);
+
   const directionsService = new window.google.maps.DirectionsService();
 
   useEffect(() => {
@@ -112,6 +115,26 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
     }
   };
 
+  const PetrolInfoWindow = () => {
+    return selectedInfoStation ? (
+      <InfoWindow
+        visiable={markerInfoVisiable}
+        onCloseClick={() => {
+          setMarkerInfoVisiable(false);
+        }}
+        position={{
+          lat: selectedInfoStation.location_y,
+          lng: selectedInfoStation.location_x,
+        }}
+      >
+        <div>
+          <h4>{selectedInfoStation.brand}</h4>
+          <h4>{selectedInfoStation.address}</h4>
+        </div>
+      </InfoWindow>
+    ) : null;
+  };
+
   const PetorlMarker = ({ servo }) => {
     // TODO: change the icon shape liked marker
     const getIconImage = (station) => {
@@ -135,22 +158,28 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
     };
 
     const displayInfoWindow = (event) => {
-      // setWayPoints([])
+      // TODO: update the Info window to the top of the map instead of on the marker
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
       setWayPoints([{ lat, lng }]);
-      console.log("click set the mid point");
+      setMarkerInfoVisiable(true);
     };
 
     return servo.map((station) => (
-      <MarkerF
-        clickable={true}
-        onClick={displayInfoWindow}
-        key={station.address}
-        icon={getIconImage(station)}
-        label={getStationTitle(station)}
-        position={{ lat: station.location_y, lng: station.location_x }}
-      />
+      <div id={station.id}>
+        <MarkerF
+          // TODO: update the marker graph also the amount of petrol to a better display
+          clickable={true}
+          onClick={(event) => {
+            setSelectedInfoStation(station);
+            displayInfoWindow(event);
+          }}
+          key={station.address}
+          icon={getIconImage(station)}
+          label={getStationTitle(station)}
+          position={{ lat: station.location_y, lng: station.location_x }}
+        />
+      </div>
     ));
   };
 
@@ -163,7 +192,8 @@ const Map = ({ brand, petrolType, src, des, cur }) => {
         zoom={15}
       >
         <MarkerF position={cur} />
-        <PetorlMarker servo={filteredServo} />
+        <PetorlMarker id="petrol-marker" servo={filteredServo} />
+        <PetrolInfoWindow />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
         {directions && <DirectionsRenderer directions={directions} />}

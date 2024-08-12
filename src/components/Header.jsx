@@ -2,12 +2,12 @@
 import "./style.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Divider, IconButton } from "@mui/material";
-import PetrolSelect from "./petrol";
-import GooglePlacesAutocomplete from "./search";
+import PetrolSelect from "./PetrolSelect";
+import GooglePlacesAutocomplete from "./GooglePlacesAutocomplete";
 import LocationSearchingSharpIcon from "@mui/icons-material/LocationSearchingSharp";
 import RoomIcon from "@mui/icons-material/Room";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
-import ServoBrandSelect from "./brand";
+import ServoBrandSelect from "./ServoBrandSelect";
 
 const Header = ({
   brand,
