@@ -1,7 +1,7 @@
 "use client";
-import Map from "./components/map";
+import Map from "./components/Map";
 import { useState } from "react";
-import Header from "./components/head";
+import Header from "./components/Header";
 
 function Home() {
   const [petrol, setPetrol] = useState("U91");
