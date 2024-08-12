@@ -1,5 +1,5 @@
 "use client";
-import Map from "./components/Map";
+import PetrolMap from "./components/PetrolMap";
 import { useState } from "react";
 import Header from "./components/Header";
 
@@ -30,13 +30,13 @@ function Home() {
           des={des}
           updatePosition={handleCurrentPositionUpdate}
         ></Header>
-        <Map
+        <PetrolMap
           brand={brand}
           petrolType={petrol}
           src={src}
           des={des}
           cur={cur}
-        ></Map>
+        ></PetrolMap>
       </div>
     </div>
   );
