@@ -36,7 +36,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
       if (srcLocation) bounds.extend(srcLocation);
       if (desLocation) bounds.extend(desLocation);
       map.fitBounds(bounds);
-      map.setZoom(25);
+      map.setZoom(15);
     }
   }, [srcLocation, desLocation]);
 
@@ -116,7 +116,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
         mapContainerClassName="map_container"
         onLoad={onLoad}
         center={cur}
-        zoom={25}
+        zoom={15}
       >
         <MarkerF position={cur} />
         <PetorlMarker

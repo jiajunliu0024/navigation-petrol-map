@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
 import getDirectionLink from "../api/directionGoogleLink";
 const PetrolInfoWindow = ({
   infoVisiable,
@@ -13,7 +12,7 @@ const PetrolInfoWindow = ({
     setInfoVisiable(false);
     setWayPoints([]);
   };
-  const directionUrl = getDirectionLink(srcLocation, desLocation, infoStation);
+  const directionUrl = getDirectionLink(infoStation);
 
   return (
     <div
@@ -32,7 +31,7 @@ const PetrolInfoWindow = ({
         zIndex: 1000,
       }}
     >
-      <div>infoStation.</div>
+      <div>infoStation: {infoVisiable ? infoStation.address : null}</div>
       <div>Distance: </div>
       <div>Estimated Cost: </div>
       <div>
