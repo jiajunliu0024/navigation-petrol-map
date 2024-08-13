@@ -135,6 +135,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
           infoVisiable={markerInfoVisiable}
           setInfoVisiable={setMarkerInfoVisiable}
           infoStation={selectedInfoStation}
+          petrolType={petrolType}
         />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
