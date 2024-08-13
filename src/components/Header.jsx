@@ -43,7 +43,7 @@ const Header = ({
   return (
     <div
       id="menu"
-      className="h-40 md:h-20 lg:h-15 relative flex flex-col md:flex-row items-center justify-between  rounded-t-lg"
+      className="h-40 m-2 md:h-20 lg:h-15 relative flex flex-col md:flex-row items-center justify-between  rounded-t-lg"
     >
       <GooglePlacesAutocomplete
         Icon={PanoramaFishEyeIcon}
@@ -94,7 +94,7 @@ const Header = ({
             petrol={petrol}
             setPetrol={setPetrol}
           />
-          
+
           <ServoBrandSelect
             className="relative rounded-lg h-4 w-8 md:w-auto"
             servoBrand={brand}

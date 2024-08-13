@@ -38,8 +38,9 @@ const PetorlMarker = ({
   };
 
   return servo.map((station) => (
-    <div id={station.id}>
+    <div>
       <MarkerF
+        id={station.id}
         // TODO: update the marker graph also the amount of petrol to a better display
         clickable={true}
         onClick={(event) => {

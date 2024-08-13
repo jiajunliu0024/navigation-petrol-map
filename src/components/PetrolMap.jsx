@@ -36,7 +36,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
       if (srcLocation) bounds.extend(srcLocation);
       if (desLocation) bounds.extend(desLocation);
       map.fitBounds(bounds);
-      map.setZoom(20);
+      map.setZoom(25);
     }
   }, [srcLocation, desLocation]);
 
@@ -116,7 +116,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
         mapContainerClassName="map_container"
         onLoad={onLoad}
         center={cur}
-        zoom={15}
+        zoom={25}
       >
         <MarkerF position={cur} />
         <PetorlMarker
@@ -128,6 +128,9 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
           setSelectedInfoStation={setSelectedInfoStation}
         />
         <PetrolInfoWindow
+          waypoints={waypoints}
+          srcLocation={srcLocation}
+          desLocation={desLocation}
           setWayPoints={setWayPoints}
           infoVisiable={markerInfoVisiable}
           setInfoVisiable={setMarkerInfoVisiable}
