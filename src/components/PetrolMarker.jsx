@@ -40,14 +40,13 @@ const PetorlMarker = ({
   return servo.map((station) => (
     <div>
       <MarkerF
-        id={station.id}
+        key={station.id}
         // TODO: update the marker graph also the amount of petrol to a better display
         clickable={true}
         onClick={(event) => {
           setSelectedInfoStation(station);
           displayInfoWindow(event);
         }}
-        key={station.address}
         icon={getIconImage(station)}
         label={getStationTitle(station)}
         position={{ lat: station.location_y, lng: station.location_x }}
