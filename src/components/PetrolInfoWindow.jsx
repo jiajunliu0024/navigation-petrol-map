@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import getDirectionLink from "../api/directionGoogleLink";
-import getDetourInfoByRoute from "../api/servo";
-import { useState } from "react";
+import { getDetourInfoByRoute } from "../api/servo";
+import { useEffect, useState } from "react";
 const PetrolInfoWindow = ({
   infoVisiable,
   infoStation,
@@ -13,23 +13,33 @@ const PetrolInfoWindow = ({
 }) => {
   const [distance, setDistance] = useState(null);
   const [cost, setCost] = useState(null);
+  const [price, setPrice] = useState(null);
+
   const cancelDetour = () => {
     setInfoVisiable(false);
     setWayPoints([]);
   };
-  if (srcLocation && desLocation && infoStation) {
-    const config = {
-      srcLat: srcLocation.lat,
-      srcLng: srcLocation.lng,
-      desLat: desLocation.lat,
-      desLng: desLocation.lng,
-      petrolType: petrolType,
-      stationId: infoStation.id,
-    };
-    const data = getDetourInfoByRoute(config);
-    setDistance(data.distance);
-    setCost(data.cost);
-  }
+
+  const fetchDetourInfo = async () => {
+    if (srcLocation && desLocation && infoStation) {
+      const params = {
+        srcLat: srcLocation.lat,
+        srcLng: srcLocation.lng,
+        desLat: desLocation.lat,
+        desLng: desLocation.lng,
+        petrolType: petrolType,
+        stationId: infoStation.id,
+      };
+      const data = await getDetourInfoByRoute(params);
+      setDistance(data.body.distance);
+      setCost(data.body.cost);
+      setPrice(data.body.price);
+    }
+  };
+  useEffect(() => {
+    fetchDetourInfo();
+  }, [infoStation, petrolType]);
+
   const directionUrl = getDirectionLink(infoStation);
 
   return (
@@ -50,8 +60,10 @@ const PetrolInfoWindow = ({
       }}
     >
       <div>Address: {infoVisiable ? infoStation.address : null}</div>
-      <div>Distance: {distance} </div>
-      <div>Estimated Cost: {cost}</div>
+      <div>Distance: {distance} km</div>
+      <div>
+        {petrolType}:{price} Estimated Cost: {cost} $
+      </div>
       <div>
         <Button onClick={cancelDetour}>Cancel</Button>
         <Button href={directionUrl}>Navigate</Button>

@@ -2,7 +2,10 @@ import { API_ENDPOINTS } from "./apiEndpoints";
 import axiosInstance from "./axiosInstance";
 
 // Example GET
-export const getServoByRoute = async (config) => {
+export const getServoByRoute = async (params) => {
+  const config = {
+    params: params,
+  };
   try {
     const response = await axiosInstance.get(API_ENDPOINTS.GET_SERVO, config);
     return response.data;
@@ -12,7 +15,10 @@ export const getServoByRoute = async (config) => {
   }
 };
 
-export const getDetourInfoByRoute = async (config) => {
+export const getDetourInfoByRoute = async (params) => {
+  const config = {
+    params: params,
+  };
   try {
     const response = await axiosInstance.get(
       API_ENDPOINTS.GET_DETOUR_INFO,
@@ -24,4 +30,3 @@ export const getDetourInfoByRoute = async (config) => {
     // throw error; // Re-throw to handle it in the component
   }
 };
-export default { getServoByRoute, getDetourInfoByRoute };
