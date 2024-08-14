@@ -1,4 +1,3 @@
-// import { useState, useEffect, useRef, useMemo } from "react";
 import "./style.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Divider, IconButton } from "@mui/material";
@@ -18,13 +17,9 @@ const Header = ({
   des,
   setSrc,
   setDes,
-  cur,
   updatePosition,
 }) => {
-  // const [src, setSrc] = useState("");
-  // const [des, setDes] = useState("");
   const getCurLocation = () => {
-    // console.log(cur);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -59,13 +54,6 @@ const Header = ({
         label={"Choose destination"}
         className="relative mx-5 rounded-lg h-8 m-2 w-full md:w-auto"
       ></GooglePlacesAutocomplete>
-      {/* <Button
-        className="relative rounded-lg h-8 w-full md:w-auto"
-        variant="contained"
-        startIcon={<SearchIcon />}
-      >
-        Search
-      </Button> */}
       <Divider />
       <div className="relative rounded-lg justify-between flex flex-row md:flex-row h-10  w-full md:w-auto">
         <IconButton
@@ -75,13 +63,6 @@ const Header = ({
           <MenuIcon />
         </IconButton>
         <div>
-          {/* <Button
-            className="relative rounded-lg md:w-auto"
-            variant="contained"
-            onClick={() => {}}
-          >
-            Set Current
-          </Button> */}
           <IconButton
             className="relative rounded-lg md:w-auto"
             variant="contained"
@@ -102,14 +83,6 @@ const Header = ({
           ></ServoBrandSelect>
         </div>
       </div>
-      {/* <Button
-        className="relative rounded-lg m-1 w-full md:w-auto"
-        variant="contained"
-        startIcon={<SearchIcon />}
-      >
-        Search
-      </Button>
-      */}
     </div>
   );
 };
