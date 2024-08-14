@@ -100,10 +100,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
         desLat: desLocation.lat,
         desLng: desLocation.lng,
       };
-      const config = {
-        params: params,
-      };
-      const result = await getServoByRoute(config);
+      const result = await getServoByRoute(params);
       setServo(result.body);
     } catch (error) {
       console.log(error.message);
