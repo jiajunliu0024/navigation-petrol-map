@@ -11,7 +11,6 @@ function Home() {
   const [des, setDes] = useState("");
   const handleCurrentPositionUpdate = (position) => {
     setCur(position);
-    console.log(position, 123131);
   };
 
   return (

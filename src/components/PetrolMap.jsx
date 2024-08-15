@@ -54,7 +54,6 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
 
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
-          // console.log(result);
           setDirections(result);
         } else {
           console.error(`error fetching directions`);
@@ -84,7 +83,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
     try {
       const location = await geocodeAddress(
         address,
-        "AIzaSyA6d7pIq9TszfM0M6pIosMT1flSKr5o8oM"
+        process.env.REACT_APP_GOOGLE_MAPS_API_KEY
       );
       return location;
     } catch (error) {

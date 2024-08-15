@@ -31,9 +31,11 @@ const PetrolInfoWindow = ({
         stationId: infoStation.id,
       };
       const data = await getDetourInfoByRoute(params);
-      setDistance(data.body.distance);
-      setCost(data.body.cost);
-      setPrice(data.body.price);
+      if (data && data.body) {
+        setDistance(data.body.distance);
+        setCost(data.body.cost);
+        setPrice(data.body.price);
+      }
     }
   };
   useEffect(() => {
