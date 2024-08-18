@@ -4,7 +4,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";;
+import Select from "@mui/material/Select";
 
 export default function ServoBrandSelect({ servoBrand, setServoBrand }) {
   const ITEM_HEIGHT = 48;
@@ -48,7 +48,11 @@ export default function ServoBrandSelect({ servoBrand, setServoBrand }) {
   };
 
   return (
-    <FormControl sx={{ width: 200 }} size="small">
+    <FormControl
+      className="rounded-lg bg-white"
+      sx={{ width: 150 }}
+      size="small"
+    >
       <InputLabel id="petrol-multiple-label">Petrol Brand</InputLabel>
       <Select
         multiple

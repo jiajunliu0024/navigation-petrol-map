@@ -107,7 +107,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   };
 
   return (
-    <div className="Map">
+    <div className="Map" >
       <GoogleMap
         mapContainerClassName="map_container"
         onLoad={onLoad}

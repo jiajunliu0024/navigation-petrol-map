@@ -22,9 +22,14 @@ export default function PetrolSelect({ petrol, setPetrol }) {
   };
 
   return (
-    <FormControl sx={{ minWidth: 80 }} size="small">
+    <FormControl
+      className="rounded-lg bg-white"
+      sx={{ minWidth: 80 }}
+      size="small"
+    >
       <InputLabel id="petrol-select-input">Petrol Type</InputLabel>
       <Select
+        placeholder="select petrol"
         labelId="petrol-select-small-label"
         id="petrol-select-small"
         value={petrol}

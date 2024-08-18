@@ -7,6 +7,7 @@ import LocationSearchingSharpIcon from "@mui/icons-material/LocationSearchingSha
 import RoomIcon from "@mui/icons-material/Room";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import ServoBrandSelect from "./ServoBrandSelect";
+import { useMediaQuery } from "@mui/material";
 
 const Header = ({
   brand,
@@ -34,17 +35,18 @@ const Header = ({
       console.log("error api");
     }
   };
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
     <div
       id="menu"
-      className="h-40 m-2 md:h-20 lg:h-15 relative flex flex-col md:flex-row items-center justify-between  rounded-t-lg"
+      className="h-40 my-2 md:h-20 lg:h-15 relative flex flex-col md:flex-row items-center justify-between  rounded-t-lg"
     >
       <GooglePlacesAutocomplete
         Icon={PanoramaFishEyeIcon}
         inputValue={src}
         setInputValue={setSrc}
-        className="relative rounded-lg h-8 w-full md:w-auto"
+        className="relative rounded-lg  w-full md:w-auto"
         label={"Your location"}
       ></GooglePlacesAutocomplete>
       <GooglePlacesAutocomplete
@@ -52,9 +54,17 @@ const Header = ({
         inputValue={des}
         setInputValue={setDes}
         label={"Choose destination"}
-        className="relative mx-5 rounded-lg h-8 m-2 w-full md:w-auto"
+        className="relative  rounded-lg  w-full md:w-auto"
       ></GooglePlacesAutocomplete>
-      <Divider />
+      <Divider
+        orientation={isSmallScreen ? "horizontal" : "vertical"}
+        flexItem
+        sx={{
+          height: isSmallScreen ? "auto" : "80%", // Height for vertical mode
+          width: isSmallScreen ? "100%" : "auto", // Width for horizontal mode
+          backgroundColor: "#d3d3d3",
+        }}
+      />
       <div className="relative rounded-lg justify-between flex flex-row md:flex-row h-10  w-full md:w-auto">
         <IconButton
           className="relative rounded-lg md:w-auto"
@@ -75,7 +85,7 @@ const Header = ({
             petrol={petrol}
             setPetrol={setPetrol}
           />
-
+          {/* <div className="w-1"></div> */}
           <ServoBrandSelect
             className="relative rounded-lg h-4 w-8 md:w-auto"
             servoBrand={brand}
