@@ -30,3 +30,19 @@ export const getDetourInfoByRoute = async (params) => {
     // throw error; // Re-throw to handle it in the component
   }
 };
+
+export const getServoByMap = async (params) => {
+  const config = {
+    params: params,
+  };
+  try {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.GET_MAP_SERVO,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // throw error; // Re-throw to handle it in the component
+  }
+};

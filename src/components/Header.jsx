@@ -26,6 +26,7 @@ const Header = ({
         (position) => {
           const { latitude, longitude } = position.coords;
           updatePosition({ lat: latitude, lng: longitude });
+          setSrc({ lat: latitude, lng: longitude });
         },
         (error) => {
           console.error("Error getting current location:", error);
