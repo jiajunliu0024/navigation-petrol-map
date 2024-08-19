@@ -47,7 +47,6 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const fetchServoByMap = async (params) => {
     const result = await getServoByMap(params);
     if (result) {
-      console.log(result.body, result.size);
       setServo(result.body);
     }
   };
