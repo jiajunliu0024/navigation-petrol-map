@@ -1,10 +1,11 @@
 import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import geocodeAddress from "../api/geocode";
-import { getServoByRoute } from "../api/servo";
+import { getServoByRoute, getServoByMap } from "../api/servo";
 import "../App.css";
 import { useEffect, useState, useCallback } from "react";
 import PetorlMarker from "./PetrolMarker";
 import PetrolInfoWindow from "./PetrolInfoWindow";
+import { debounce } from "lodash";
 
 const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
@@ -16,7 +17,40 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const [waypoints, setWayPoints] = useState([]);
   const [markerInfoVisiable, setMarkerInfoVisiable] = useState(false);
   const [selectedInfoStation, setSelectedInfoStation] = useState(null);
+  const [bounds, setBounds] = useState(null);
+
   const directionsService = new window.google.maps.DirectionsService();
+
+  const fetchWithDebounce = useCallback(
+    debounce((params) => {
+      fetchServoByMap(params);
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    if (bounds) {
+      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest();
+      const params = {
+        swLat: sw.lat(),
+        swLng: sw.lng(),
+        neLat: ne.lat(),
+        neLng: ne.lng(),
+      };
+      if (!srcLocation || !desLocation) {
+        fetchWithDebounce(params); // Use the debounced function
+      }
+    }
+  }, [bounds]);
+
+  const fetchServoByMap = async (params) => {
+    const result = await getServoByMap(params);
+    if (result) {
+      console.log(result.body, result.size);
+      setServo(result.body);
+    }
+  };
 
   useEffect(() => {
     handleGeocode(src).then((location) => setSrcLocation(location));
@@ -107,12 +141,16 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   };
 
   return (
-    <div className="Map" >
+    <div className="Map">
       <GoogleMap
         mapContainerClassName="map_container"
         onLoad={onLoad}
         center={cur}
         zoom={15}
+        onBoundsChanged={() => {
+          const bounds = map.getBounds();
+          setBounds(bounds);
+        }}
       >
         <MarkerF position={cur} />
         <PetorlMarker
