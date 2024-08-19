@@ -32,7 +32,7 @@ const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
   }, [searchValue, autocompleteService]);
 
   return (
-    <div className="flex flex-row items-center  ">
+    <div className="flex flex-row items-center">
       <Icon color="action" className="mx-2"></Icon>
       <Autocomplete
         className="rounded-lg bg-white"
@@ -44,7 +44,6 @@ const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
         }}
         onChange={(event, newValue) => {
           setInputValue(newValue);
-          console.log("Updated the input value: ", newValue);
         }}
         renderInput={(params) => (
           <TextField
