@@ -1,8 +1,8 @@
 // petrolImages.js
 import ampol from "../petrol_images/ampol.png";
 import shell from "../petrol_images/shell.png";
-import united from "../petrol_images/united.jpeg";
-import caltex from "../petrol_images/caltex.jpeg";
+import united from "../petrol_images/united.png";
+import caltex from "../petrol_images/caltex.png";
 import bp from "../petrol_images/bp.png";
 // Import other images as needed
 
