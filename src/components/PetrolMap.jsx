@@ -104,12 +104,16 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
       fetchServo();
     } else {
       setDirections(null);
-      setServo([]);
+      setServo(filteredServo);
     }
   }, [srcLocation, desLocation, waypoints]);
 
   useEffect(() => {
-    setFilteredServo(servo.filter((station) => brand.includes(station.brand)));
+    if (servo) {
+      setFilteredServo(
+        servo.filter((station) => brand.includes(station.brand))
+      );
+    }
   }, [brand, servo]);
 
   const handleGeocode = async (address) => {

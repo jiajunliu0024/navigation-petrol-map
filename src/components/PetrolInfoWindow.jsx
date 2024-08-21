@@ -10,6 +10,7 @@ const PetrolInfoWindow = ({
   petrolType,
   setInfoVisiable,
   setWayPoints,
+  flag,
 }) => {
   const [distance, setDistance] = useState(null);
   const [cost, setCost] = useState(null);
@@ -61,11 +62,11 @@ const PetrolInfoWindow = ({
         zIndex: 1000,
       }}
     >
-      <div>Address: {infoVisiable ? infoStation.address : null}</div>
-      <div>Distance: {distance} km</div>
-      <div>
+      <h4>Address: {infoVisiable ? infoStation.address : null}</h4>
+      <h4>Distance: {distance} km</h4>
+      <h4>
         {petrolType}:{price} Estimated Cost: {cost} $
-      </div>
+      </h4>
       <div>
         <Button onClick={cancelDetour}>Cancel</Button>
         <Button href={directionUrl}>Navigate</Button>
