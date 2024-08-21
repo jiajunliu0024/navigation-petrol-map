@@ -14,7 +14,7 @@ const PetorlMarker = ({
     return {
       url: imageSrc,
       scaledSize: {
-        width: 30, // Width in pixels
+        width: 20, // Width in pixels
         height: 25, // Height in pixels
       }, // Set the size here (width, height) in pixels
     };
