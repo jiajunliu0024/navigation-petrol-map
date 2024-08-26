@@ -23,7 +23,7 @@ export default function PetrolSelect({ petrol, setPetrol }) {
 
   return (
     <FormControl
-      className="rounded-lg bg-white"
+      className="rounded-full bg-white"
       sx={{ minWidth: 80 }}
       size="small"
     >

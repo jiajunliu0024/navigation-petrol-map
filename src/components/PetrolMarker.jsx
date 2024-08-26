@@ -7,6 +7,7 @@ const PetorlMarker = ({
   setWayPoints,
   setMarkerInfoVisiable,
   setSelectedInfoStation,
+  setSrcLocation,
 }) => {
   // TODO: change the icon shape liked marker
   const getIconImage = (station) => {

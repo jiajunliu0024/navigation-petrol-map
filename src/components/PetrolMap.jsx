@@ -18,6 +18,7 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const [markerInfoVisiable, setMarkerInfoVisiable] = useState(false);
   const [selectedInfoStation, setSelectedInfoStation] = useState(null);
   const [bounds, setBounds] = useState(null);
+  const [distance, setDistance] = useState(0);
 
   const directionsService = new window.google.maps.DirectionsService();
 
@@ -62,7 +63,9 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);
   }, []);
-
+  /**
+   * get the bounding zoom
+   */
   useEffect(() => {
     if (srcLocation || desLocation) {
       const bounds = new window.google.maps.LatLngBounds();
@@ -88,6 +91,15 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           setDirections(result);
+          let totalDistance = 0;
+          const legs = result.routes[0].legs;
+          legs.forEach((leg) => {
+            totalDistance += leg.distance.value; // Distance in meters
+          });
+
+          // Convert distance to kilometers or miles if needed
+          totalDistance = totalDistance / 1000;
+          setDistance(totalDistance);
         } else {
           console.error(`error fetching directions`);
         }
@@ -107,6 +119,20 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
       setServo(filteredServo);
     }
   }, [srcLocation, desLocation, waypoints]);
+
+  useEffect(() => {
+    if (!selectedInfoStation) {
+      return;
+    }
+    if (!srcLocation || !desLocation) {
+      const selectedInfoStationLoc = {
+        lat: selectedInfoStation.location_y,
+        lng: selectedInfoStation.location_x,
+      };
+      // console.log(cur, selectedInfoStationLoc);
+      calculateRoute(cur, selectedInfoStationLoc, waypoints);
+    }
+  }, [srcLocation, desLocation, waypoints, selectedInfoStation]);
 
   useEffect(() => {
     if (servo) {
@@ -160,11 +186,13 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
           id="petrol-marker"
           petrolType={petrolType}
           servo={filteredServo}
+          setSrcLocation={setSrcLocation}
           setWayPoints={setWayPoints}
           setMarkerInfoVisiable={setMarkerInfoVisiable}
           setSelectedInfoStation={setSelectedInfoStation}
         />
         <PetrolInfoWindow
+          routesDistance={distance}
           waypoints={waypoints}
           srcLocation={srcLocation}
           desLocation={desLocation}
@@ -172,7 +200,9 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
           infoVisiable={markerInfoVisiable}
           setInfoVisiable={setMarkerInfoVisiable}
           infoStation={selectedInfoStation}
+          setSelectedStation={setSelectedInfoStation}
           petrolType={petrolType}
+          curLocation={cur}
         />
         {srcLocation && <MarkerF position={srcLocation} />}
         {desLocation && <MarkerF position={desLocation} />}
