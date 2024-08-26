@@ -35,7 +35,11 @@ const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
     <div className="flex flex-row items-center">
       <Icon color="action" className="mx-2"></Icon>
       <Autocomplete
-        className="rounded-lg bg-white"
+        sx={{
+          borderColor: "black",
+          borderRadius: "20px", // Set the border radius
+        }}
+        className="bg-white rounded-none"
         size="small"
         options={options}
         inputValue={searchValue}
@@ -48,14 +52,20 @@ const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            variant="outlined"
             sx={{
+              border: "none",
               width: {
                 xs: "360px", // width for extra-small screens
                 sm: "400px", // width for small screens
                 md: "400px", // width for medium screens
                 lg: "400px", // width for large screens
                 xl: "400px", // width for extra-large screens
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderRadius: "20px",
+                  borderColor: "grey",
+                },
               },
             }}
             label={label}
