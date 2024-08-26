@@ -50,9 +50,7 @@ const PetrolInfoWindow = ({
       (petrol) => petrol.type === petrolType
     );
     if (petrol) {
-      if (!price) {
-        setPrice(petrol.amount);
-      }
+      setPrice(petrol.amount);
     }
   };
 
