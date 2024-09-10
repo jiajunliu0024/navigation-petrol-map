@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 import PetorlMarker from "./PetrolMarker";
 import PetrolInfoWindow from "./PetrolInfoWindow";
 import { debounce } from "lodash";
+import coffee from "../assets/coffee.png";
 
 const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
   const [srcLocation, setSrcLocation] = useState(null);
@@ -208,6 +209,11 @@ const PetrolMap = ({ brand, petrolType, src, des, cur }) => {
         {desLocation && <MarkerF position={desLocation} />}
         {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
+      <div className="floating-button">
+        <a href="https://buymeacoffee.com/jiajunliu" class="button">
+          <img src={coffee} alt="Button Image" className="button-image" />
+        </a>
+      </div>
     </div>
   );
 };
