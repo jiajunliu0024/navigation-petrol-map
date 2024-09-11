@@ -32,7 +32,7 @@ const GooglePlacesAutocomplete = ({ setInputValue, label, Icon }) => {
   }, [searchValue, autocompleteService]);
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center my-2">
       <Icon color="action" className="mx-2"></Icon>
       <Autocomplete
         sx={{

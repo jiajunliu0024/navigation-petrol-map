@@ -42,7 +42,7 @@
   width: 100vw;
 }
 .Map {
-  height: 80vh;
+  height: 100vh;
   width: 100vw;
 }
 /* map container height and width to be provided to GoogleMaps Component */
